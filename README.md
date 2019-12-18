@@ -4,7 +4,7 @@ NHentai API implementation in Java, a extended project from NHViewer
 
 The project will include functions/API I used in NHViewer
 
-# Usage
+## Usage
 
 App.java should be a demo of the API
 
