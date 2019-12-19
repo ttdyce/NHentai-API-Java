@@ -17,14 +17,6 @@ public class NHApiComicFactory implements ComicFactory {
     private boolean sortedPopular;
     private ResponseCallback callback;
 
-    public NHApiComicFactory(NHAPI nhapi, String query, int page, boolean sortedPopular, ResponseCallback callback) {
-        this.nhapi = nhapi;
-        this.query = query;
-        this.page = page;
-        this.sortedPopular = sortedPopular;
-        this.callback = callback;
-    }
-
     public NHApiComicFactory(String language, String query, int page, boolean sortedPopular, ResponseCallback callback) {
         this.nhapi = new NHAPI();
         this.language = language;

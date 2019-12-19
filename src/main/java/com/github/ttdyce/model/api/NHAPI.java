@@ -56,39 +56,16 @@ public class NHAPI {
         JsonArray result = new JsonParser().parse(response).getAsJsonObject().get("result").getAsJsonArray();
         callback.onReponse(result.toString());
 
-        // String language = .getString(MainActivity.KEY_PREF_DEFAULT_LANGUAGE, "not
-        // set");
-        // Instantiate the RequestQueue.
-        // RequestQueue queue = Volley.newRequestQueue();
-        // String url = URLs.search("language:" + language + " " + query, page,
-        // sortedPopular);
-        // Log.d(TAG, "getComicList: loading from url " + url);
-        // if(language.equals("All") || language.equals("not set"))// TODO: 2019/10/1
-        // Function is limited if language = all
-        // url = URLs.getIndex(page);
-
-        // // Request a string response from the provided URL.
-        // StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-        // new Response.Listener<String>() {
-        // @Override
-        // public void onResponse(String response) {
-        // JsonArray result = new
-        // JsonParser().parse(response).getAsJsonObject().get("result").getAsJsonArray();
-        // callback.onReponse(result.toString());
-        // }
-        // }, new Response.ErrorListener() {
-        // @Override
-        // public void onErrorResponse(VolleyError error) {
-        // callback.onErrorResponse(error);
-        // }
-        // });
-
-        // // Add the request to the RequestQueue.
-        // queue.add(stringRequest);
-
     }
 
-    public void getComic(int id, final ResponseCallback callback) {
+    public void getComic(int id, final ResponseCallback callback) throws IOException {
+        String url = URLs.getComic(id);
+        System.out.println(TAG + " getComic: loading from url " + url);
+
+        Request request = new Request();
+        String response = request.get(url);
+        callback.onReponse(response);
+
         // Instantiate the RequestQueue.
         // RequestQueue queue = Volley.newRequestQueue(context);
         // String url = URLs.getComic(id);
