@@ -6,7 +6,7 @@ The project will include functions/API I used in NHViewer
 
 ## Usage
 
-[App.java](src\main\java\com\github\ttdyce\App.java) should be a great demo of the API
+[App.java](src/main/java/com/github/ttdyce/App.java) should be a great demo of the API
 
 The API use callback methods to operate, here is a example to get index comic list
 
