@@ -33,8 +33,16 @@ public class App {
 
             }
         }; 
+        //end of callback
         try {
-            api.getComicList("chinese", "", 1, true, comicListReturnCallback);
+            api.getComicList(comicListReturnCallback);//index page 1
+            for (Comic comic : list) {
+                System.out.println(comic.getTitle());
+            }
+            System.out.println("*********");
+            System.out.println("");
+            
+            api.getComicList("english", "", 1, true, comicListReturnCallback);//english comic page 1, sort by popularity
             for (Comic comic : list) {
                 System.out.println(comic.getTitle());
             }
@@ -60,6 +68,7 @@ public class App {
                 System.out.println(gson.toJson(comic));
             }
         };
+        //end of callback
         try {
             api.getComic(id, comicReturnCallback);
         } catch (IOException e) {
@@ -101,7 +110,8 @@ public class App {
             }
 
         };
-        NHApiComicFactory factory = new NHApiComicFactory("chinese", "", 1, true, onFactoryComicListReturn);
+        //end of callback
+        NHApiComicFactory factory = new NHApiComicFactory("english", " ", 1, true, onFactoryComicListReturn);
         factory.requestComicList();// trigger onFactoryComicListReturn.onResponse(response)
         for (Comic comic : list) {
             System.out.println(comic.getTitle());

@@ -13,6 +13,10 @@ public class NHAPI {
     public NHAPI() {
     }
 
+    public void getComicList(final ResponseCallback callback) throws IOException {
+        getComicList("", 1, false, callback);
+    }
+
     public void getComicList(String query, final ResponseCallback callback) throws IOException {
         getComicList(query, 1, false, callback);
     }
@@ -32,14 +36,8 @@ public class NHAPI {
 
     public void getComicList(String query, int page, boolean sortedPopular, final ResponseCallback callback)
             throws IOException {
-        // TODO: 2019/10/1 Function is limited if language = all
-        String url = URLs.search(query, page, sortedPopular);
-        System.out.println(TAG + " getComicList: loading from url " + url);
-
-        Request request = new Request();
-        String response = request.get(url);
-        JsonArray result = new JsonParser().parse(response).getAsJsonObject().get("result").getAsJsonArray();
-        callback.onReponse(result.toString());
+        // TODO: 2019/10/1 Function is limited if query == "" && language == all, by the API (2019/12/22)
+        getComicList("", query, page, sortedPopular, callback);
 
     }
 
@@ -48,8 +46,15 @@ public class NHAPI {
         String languageQuery = "language:" + language;
         if (language.equals("") || language.equals("all"))
             languageQuery = "";
-        String url = URLs.search(languageQuery + "" + query, page, sortedPopular);
+
+        String fullQuery = languageQuery + "" + query;
+        String url = URLs.search(fullQuery, page, sortedPopular);
+        if (languageQuery.equals("") && query.equals(""))
+            url = URLs.getIndex(page);//forward to index if language, query == ""
+
+        System.out.println("");
         System.out.println(TAG + " getComicList: loading from url " + url);
+        System.out.println("");
 
         Request request = new Request();
         String response = request.get(url);
@@ -60,33 +65,14 @@ public class NHAPI {
 
     public void getComic(int id, final ResponseCallback callback) throws IOException {
         String url = URLs.getComic(id);
+
+        System.out.println("");
         System.out.println(TAG + " getComic: loading from url " + url);
+        System.out.println("");
 
         Request request = new Request();
         String response = request.get(url);
         callback.onReponse(response);
-
-        // Instantiate the RequestQueue.
-        // RequestQueue queue = Volley.newRequestQueue(context);
-        // String url = URLs.getComic(id);
-
-        // // Request a string response from the provided URL.
-        // StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-        // new Response.Listener<String>() {
-        // @Override
-        // public void onResponse(String response) {
-        // // Display the first 500 characters of the response string.
-        // callback.onReponse(response);
-        // }
-        // }, new Response.ErrorListener() {
-        // @Override
-        // public void onErrorResponse(VolleyError error) {
-        // callback.onErrorResponse(error);
-        // }
-        // });
-
-        // // Add the request to the RequestQueue.
-        // queue.add(stringRequest);
     }
 
     // https://nhentai.net/api/galleries/search?query=language:chinese&page=1&sort=popular
