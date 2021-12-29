@@ -43,14 +43,19 @@ public class NHAPI {
 
     public void getComicList(String language, String query, int page, boolean sortedPopular,
             final ResponseCallback callback) throws IOException {
+        getComicList(language, query, page, sortedPopular, PopularType.allTime, callback);
+    }
+
+    public void getComicList(String language, String query, int page, boolean sortedPopular, PopularType popularType,
+            final ResponseCallback callback) throws IOException {
         String languageQuery = "language:" + language;
         if (language.equals("") || language.equals("all"))
             languageQuery = "";
 
         String fullQuery = languageQuery + "" + query;
-        String url = URLs.search(fullQuery, page, sortedPopular);
+        String url = URLs.search(fullQuery, page, sortedPopular, popularType);
         if (languageQuery.equals("") && query.equals(""))
-            url = URLs.getIndex(page);//forward to index if language, query == ""
+            url = URLs.getIndex(page);// forward to index if language, query == ""
 
         System.out.println("");
         System.out.println(TAG + " getComicList: loading from url " + url);
@@ -83,10 +88,25 @@ public class NHAPI {
         private static String[] types = { "jpg", "png" };
 
         public static String search(String query, int page, boolean sortedPopular) {
-            if (sortedPopular)
-                return searchPrefix + query + "&page=" + page + "&sort=popular";
-            else
+            return URLs.search(query, page, sortedPopular, PopularType.allTime);
+        }
+
+        public static String search(String query, int page, boolean sortedPopular, PopularType popularType) {
+            if (!sortedPopular)
                 return searchPrefix + query + "&page=" + page;
+
+            if (popularType == PopularType.allTime)
+                return searchPrefix + query + "&page=" + page + "&sort=popular";
+            if (popularType == PopularType.year)
+                return searchPrefix + query + "&page=" + page + "&sort=popular-year";
+            if (popularType == PopularType.month)
+                return searchPrefix + query + "&page=" + page + "&sort=popular-month";
+            if (popularType == PopularType.week)
+                return searchPrefix + query + "&page=" + page + "&sort=popular-week";
+            if (popularType == PopularType.today)
+                return searchPrefix + query + "&page=" + page + "&sort=popular-today";
+
+            return "";// should be not needed
         }
 
         public static String getComic(int id) {
