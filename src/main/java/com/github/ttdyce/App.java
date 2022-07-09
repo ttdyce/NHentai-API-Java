@@ -36,7 +36,7 @@ public class App {
             @Override
             public void onError(String error) {
                 
-                System.err.println("Error accessing comic list! API returned a \"" + error + "\"");
+                System.err.println("Error accessing comic list! This probably means that NHentai's DDoS protection is blocking us. API returned a \"" + error + "\"");
                 
             }
         }; 
@@ -85,7 +85,7 @@ public class App {
                 @Override
                 public void onError(String error) {
                     
-                    System.err.println("Error accessing comic! API returned a \"" + error + "\"");
+                    System.err.println("Error accessing comic! This probably means that NHentai's DDoS protection is blocking us. API returned a \"" + error + "\"");
                     
                 }
             };
@@ -134,7 +134,7 @@ public class App {
             
             @Override public void onError(String error) {
                 
-                System.err.println("Error demoing Comic Factory! API returned a \"" + error + "\"");
+                System.err.println("Error demoing Comic Factory! This probably means that NHentai's DDoS protection is blocking us. API returned a \"" + error + "\"");
                 
             }
 
