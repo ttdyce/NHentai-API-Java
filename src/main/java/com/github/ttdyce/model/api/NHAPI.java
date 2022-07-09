@@ -63,8 +63,20 @@ public class NHAPI {
 
         Request request = new Request();
         String response = request.get(url);
-        JsonArray result = new JsonParser().parse(response).getAsJsonObject().get("result").getAsJsonArray();
-        callback.onReponse(result.toString());
+        
+        // Check for 503 response. This means that Cloudflare is refusing the play nice
+        // Send an error with the response
+        if ("503".equals(response.substring(0, 3))) {
+            
+            callback.onError(response.toString());
+            
+        } else {
+            
+            // Otherwise, compose the result as a json array and return it
+            JsonArray result = new JsonParser().parse(response).getAsJsonObject().get("result").getAsJsonArray();
+            callback.onReponse(result.toString());
+            
+        }
 
     }
 
@@ -77,7 +89,18 @@ public class NHAPI {
 
         Request request = new Request();
         String response = request.get(url);
-        callback.onReponse(response);
+        
+        // Check for 503, same as with getComicList.
+        if ("503".equals(response.substring(0, 3))) {
+            
+            callback.onError(response.toString());
+            
+        } else {
+            
+            callback.onReponse(response);
+            
+        }
+        
     }
 
     // https://nhentai.net/api/galleries/search?query=language:chinese&page=1&sort=popular
