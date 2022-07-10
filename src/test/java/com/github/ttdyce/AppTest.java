@@ -54,6 +54,12 @@ public class AppTest
 
             }
 
+            @Override
+            public void onError(String error) {
+                System.err.println("Error accessing comic list! This probably means that NHentai's DDoS protection is blocking us. API returned a \"" + error + "\"");
+                
+            }
+
         };
         //end of callback
         NHApiComicFactory factory = new NHApiComicFactory("chinese", " ", 1, PopularType.today, onFactoryComicListReturn);
