@@ -65,8 +65,9 @@ public class NHAPI {
         String response = request.get(url);
         
         // Check for 503 response. This means that Cloudflare is refusing the play nice
+        // 503 example: " 503, Service Temporarily Unavailable"
         // Send an error with the response
-        if ("503".equals(response.substring(0, 3))) {
+        if (response == null || response.contains("503")) {
             
             callback.onError(response.toString());
             
