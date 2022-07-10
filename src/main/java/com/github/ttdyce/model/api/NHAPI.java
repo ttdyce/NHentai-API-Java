@@ -119,7 +119,7 @@ public class NHAPI {
             if (!sortedPopular)
                 return searchPrefix + query + "&page=" + page;
 
-            if (popularType == PopularType.allTime)
+            if (popularType == PopularType.allTime || popularType == null)
                 return searchPrefix + query + "&page=" + page + "&sort=popular";
             if (popularType == PopularType.year)
                 return searchPrefix + query + "&page=" + page + "&sort=popular-year";
